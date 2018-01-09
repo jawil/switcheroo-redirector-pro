@@ -40,7 +40,7 @@ function showDataOnPage(id, data, link) {
   if (window.webkitNotifications) {
     var notification = window.webkitNotifications.createNotification(
       "images/switch128.png",
-      "Alibaba HTTP Redirector",
+      "Switcheroo Redirector Plus",
       data
     );
     notification.show();
@@ -50,7 +50,7 @@ function showDataOnPage(id, data, link) {
   } else if (chrome.notifications) {
     var opt = {
       type: "basic",
-      title: "Alibaba HTTP Redirector",
+      title: "Switcheroo Redirector Plus",
       message: data,
       iconUrl: "images/switch128.png"
     };
@@ -80,8 +80,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   ) {
     showDataOnPage(
       1000,
-      "Alibaba HTTP Redirector 正在为您代理中！",
-      "https://github.com/jawil"
+      "Switcheroo Redirector Plus 正在为您代理中！",
+      "https://github.com/jawil/redirect"
     );
   }
 });

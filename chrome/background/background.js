@@ -68,6 +68,10 @@ function showDataOnPage(id, data, link) {
   }
 }
 
+if (!localStorage["isProxy"]) {
+  localStorage["isProxy"] = "true";
+}
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   sendResponse({ proxyUrl: localStorage["proxyUrl"] });
   let currentUrl = request.currentUrl;

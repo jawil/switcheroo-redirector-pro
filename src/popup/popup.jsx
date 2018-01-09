@@ -29,7 +29,6 @@ export default class Switcheroo extends Component {
         localStorage["proxyUrl"] = tab.url;
         chrome.tabs.sendRequest(tab.id, "", response => {
           // chrome.extension.getBackgroundPage().rules = response.scriptUrlList;
-
           this.state.localRules.setRules(response.scriptUrlList || []);
           this.setState({ rules: response.scriptUrlList || [] });
         });
@@ -281,11 +280,7 @@ export default class Switcheroo extends Component {
             onChange={e => this.switchProxy(e)}
             checkedChildren="代理开"
             unCheckedChildren="代理关"
-            defaultChecked={
-              localStorage["isProxy"]
-                ? JSON.parse(localStorage["isProxy"])
-                : true
-            }
+            defaultChecked={JSON.parse(localStorage["isProxy"])}
           />
         </div>
       </ul>

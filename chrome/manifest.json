@@ -1,0 +1,40 @@
+{
+  "name": "Alibaba HTTP Redirector",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description":
+    "Setup custom redirect rules for any http request i.e pages, scripts, images etc. Uses a simple string replace to do this.",
+  "icons": {
+    "16": "images/switch128.png",
+    "48": "images/switch128.png",
+    "128": "images/switch128.png"
+  },
+  "browser_action": {
+    "default_icon": "images/switch-browser.png",
+    "default_title": "Add switcheroo rules.",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "webRequest",
+    "notifications",
+    "webRequestBlocking",
+    "<all_urls>",
+    "tabs",
+    "storage",
+    "*://github.com/*"
+  ],
+  "content_security_policy":
+    "default-src 'self'; script-src 'self' https://ajax.googleapis.com 'unsafe-eval'; style-src * 'unsafe-inline';font-src 'self' https://at.alicdn.com",
+  "background": {
+    "scripts": ["background/background.js", "background/underscore.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "css": ["style/styles.css"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ]
+}

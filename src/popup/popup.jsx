@@ -236,7 +236,7 @@ export default class Switcheroo extends Component {
 
     const headRule = (
       <li className="url-item url-item-diff url-item-head">
-        <a href="https://github.com/jawil" target="_blank">
+        <a href="https://github.com/jawil/redirect" target="_blank">
           有问题？联系我
         </a>
         <span class="from">From</span>
@@ -281,7 +281,11 @@ export default class Switcheroo extends Component {
             onChange={e => this.switchProxy(e)}
             checkedChildren="代理开"
             unCheckedChildren="代理关"
-            defaultChecked={JSON.parse(localStorage["isProxy"])}
+            defaultChecked={
+              localStorage["isProxy"]
+                ? JSON.parse(localStorage["isProxy"])
+                : false
+            }
           />
         </div>
       </ul>

@@ -1,6 +1,6 @@
 {
   "name": "Alibaba HTTP Redirector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description":
     "Setup custom redirect rules for any http request i.e pages, scripts, images etc. Uses a simple string replace to do this.",
@@ -24,7 +24,7 @@
     "*://github.com/*"
   ],
   "content_security_policy":
-    "default-src 'self'; script-src 'self' https://ajax.googleapis.com 'unsafe-eval'; style-src * 'unsafe-inline';font-src 'self' https://at.alicdn.com",
+    "default-src 'self'; script-src 'self' https://ajax.googleapis.com https://sentry.io 'unsafe-eval'; style-src * 'unsafe-inline';font-src 'self' https://at.alicdn.com",
   "background": {
     "scripts": ["background/background.js", "background/underscore.js"]
   },

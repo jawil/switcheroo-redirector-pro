@@ -284,7 +284,7 @@ export default class Switcheroo extends Component {
             defaultChecked={
               localStorage["isProxy"]
                 ? JSON.parse(localStorage["isProxy"])
-                : false
+                : true
             }
           />
         </div>

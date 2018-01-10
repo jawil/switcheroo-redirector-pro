@@ -2,34 +2,33 @@
   margin: 0;
   padding: 0;
 }
+html,
+body {
+  height: auto!important;
+}
 #root {
   padding: 10px;
-  width: 650px;
+  width: 620px;
   position: relative;
 }
 
 li.url-item {
   list-style: none;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  font-size: 13px;
 }
 
-li.url-item input {
-  border: 1px solid #d3d3d3;
-  box-sizing: border-box;
-  font-size: 14px;
-}
 li.url-item textarea {
   outline: none !important;
   resize: none !important;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
-  font-size: 14px;
   word-break: break-all;
+  height: 20px;
 }
 
 li.url-item span {
   cursor: pointer;
-  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -37,24 +36,26 @@ li.url-item span {
 }
 li.url-item span:hover {
   opacity: 0.8;
+  text-decoration: underline;
+  color: #f37327;
 }
+
 li.url-item .from {
   display: inline-block;
   width: 300px;
-  line-height: 20px;
   vertical-align: middle;
-  margin-left: 8px;
-}
-li.url-item-diff .from {
-  margin-left: 24px;
 }
 
 li.url-item-head {
-  background: #f69;
-  font-size: 18px;
-  font-weight: bold;
-  width: 605px;
+  background: rgba(3, 102, 214, 0.7);
+  font-size: 14px;
   position: relative;
+}
+
+li.url-item-head span:hover {
+  opacity: 1;
+  text-decoration: none;
+  color: #fff;
 }
 
 li.url-item-head a {
@@ -80,28 +81,28 @@ li.url-item .seperator {
   color: red;
   padding: 0 20px;
   font-size: 16px;
-  line-height: 20px;
   vertical-align: middle;
+  cursor: default;
 }
 
 li.url-item .to {
   display: inline-block;
   width: 170px;
-  line-height: 20px;
   vertical-align: middle;
+  margin-right: 10px;
 }
 
 li.url-item-head .from {
-  margin-left: 30px;
   color: white;
 }
 
 li.url-item-head .to {
   color: white;
+  margin-left: 8px;
 }
 
 .add-btn,
-.delete-btn {
+.deleteAll-btn {
   cursor: pointer;
   width: 50px;
   height: 22px;
@@ -119,24 +120,32 @@ li.url-item-head .to {
   border-radius: 5px;
 }
 
+.add-btn {
+  width: 66px;
+  height: 22px;
+  margin-left: 0;
+}
+.delete-btn {
+  text-decoration: underline;
+  color: #333;
+  margin-left: 8px;
+}
 .add-btn:hover,
-.delete-btn:hover {
+.deleteAll-btn:hover {
   background-position: 0 0;
 }
 
-.delete-btn {
-  background-image: linear-gradient(#f69, red);
-}
 .deleteAll-btn {
+  background-image: linear-gradient(#f69, red);
   width: 70px;
   height: 25px;
-  margin-left: 25px;
+  margin-top: 15px;
 }
 
 .switch {
   position: absolute;
-  bottom: 10px;
-  right: 35px;
+  bottom: 23px;
+  right: 15px;
 }
 
 .collect-urls {

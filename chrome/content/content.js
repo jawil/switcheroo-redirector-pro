@@ -7,8 +7,10 @@ chrome.runtime.sendMessage({ currentUrl: currentUrl }, function(response) {
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
   const scriptUrlList = Array.from(document.querySelectorAll("script"))
     .map(item => {
+      if (/\/+\?\?/.test(item.src)) {
+        return item.src;
+      }
       let pathname = item.src.split("/").pop();
-
       return item.src.split(pathname)[0];
     })
     .filter(item => {
@@ -28,7 +30,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     })
     .map(item => {
       let toUrl = "http://127.0.0.1:3000/";
-      if (/\/\?\?platform/.test(item)) {
+      if (/\/+\?\?/.test(item)) {
         toUrl = item.replace(/\.min/g, "");
       }
       return {
@@ -43,13 +45,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
   /* 特殊的planform??放在最后面 */
   generatorScriptUrl.forEach((item, index, array) => {
-    if (/\/\?\?platform/.test(item.from)) {
+    if (/\/+\?\?/.test(item.from)) {
       array.splice(index, 1);
       array.push(item);
     }
   });
-
-  console.log(generatorScriptUrl, 1111);
 
   /* 如果不是阿里的网站就正常抓取链接 */
   if (!generatorScriptUrl.length) {

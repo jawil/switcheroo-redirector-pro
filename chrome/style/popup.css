@@ -2,8 +2,9 @@
   margin: 0;
   padding: 0;
 }
-html,body{
-  height: 510px!important;
+html,
+body {
+  height: 510px !important;
   overflow: hidden;
 }
 #root {
@@ -152,6 +153,10 @@ li.url-item-head .to {
   width: 97%;
   height: 360px;
   overflow: auto;
+}
+
+.url-group-item::-webkit-scrollbar {
+  display: none;
 }
 
 footer {

@@ -25,7 +25,7 @@ export default class Switcheroo extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     /* 当rules为空并且用户没有点击全部删除的动作自动初始化抓取 */
     if (
       !this.state.localRules.getRules("commonRules").length &&
@@ -35,7 +35,6 @@ export default class Switcheroo extends Component {
         localStorage["proxyUrl"] = tab.url;
         chrome.tabs.sendRequest(tab.id, "", response => {
           // chrome.extension.getBackgroundPage().rules = response.commonLinks;
-          console.log(response,22222222222)
           this.state.localRules.setRules(
             response.commonLinks,
             response.fewLinks
@@ -115,3 +114,20 @@ export default class Switcheroo extends Component {
     );
   }
 }
+
+/* 
+import axios from "axios";
+import cheerio from "cheerio";
+chrome.tabs.getSelected(null, tab => {
+  axios
+    .get(tab.url)
+    .then(function(response) {
+      const $ = cheerio.load(response.data);
+      console.log($("script"),typeof Array.from($("script")))
+      let { commonLinks } = genertorRules($("script"));
+      console.log(commonLinks);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}); */

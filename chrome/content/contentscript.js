@@ -75,7 +75,7 @@ if (!generatorScriptUrl.length) {
   });
 }
 
-console.log(commonLinks, fewLinks,1111);
+console.log(commonLinks, fewLinks);
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
   sendResponse({

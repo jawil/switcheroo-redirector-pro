@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { $ } from "utils/getdom";
 import { autoTextarea } from "utils/textareaAutoHeight";
-import { Popconfirm, Button } from "antd";
+import { Popconfirm, Button, message } from "antd";
 /* 抓取页面所有链接 */
 export default class GetLinks extends Component {
   constructor(props) {
@@ -27,10 +27,14 @@ export default class GetLinks extends Component {
         localStorage["proxyUrl"] = tab.url;
         chrome.tabs.sendRequest(tab.id, "", response => {
           // chrome.extension.getBackgroundPage().rules = response.commonLinks;
-          this.props.onGetLinks(response.commonLinks, response.fewLinks);
-          this.setState({
-            loading: false
-          });
+          if (response) {
+            this.props.onGetLinks(response.commonLinks, response.fewLinks);
+            this.setState({
+              loading: false
+            });
+          } else {
+            message.error("请刷新页面生效后再重新获取！", 1);
+          }
         });
       });
     }, 1000);
@@ -55,13 +59,13 @@ export default class GetLinks extends Component {
           okText="是"
           cancelText="否"
         >
-          <Button type="primary" size="small" loading={this.state.loading}>
+          <Button type="danger" loading={this.state.loading}>
             重新抓取页面链接
           </Button>
         </Popconfirm>
 
-        <Button size="small" type="dashed" onClick={e => this.refreshPage(e)}>
-         刷新页面
+        <Button type="dashed" onClick={e => this.refreshPage(e)}>
+          刷新页面
         </Button>
       </li>
     );

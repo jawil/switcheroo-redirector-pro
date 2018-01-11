@@ -75,12 +75,11 @@ if (!generatorScriptUrl.length) {
   });
 }
 
-console.log(commonLinks, fewLinks);
+console.log(commonLinks, fewLinks,1111);
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
   sendResponse({
     commonLinks: commonLinks,
-    
     fewLinks: fewLinks
   });
 });

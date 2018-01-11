@@ -4,6 +4,7 @@
 }
 html,body{
   height: 510px!important;
+  overflow: hidden;
 }
 #root {
   padding: 10px;
@@ -148,10 +149,8 @@ li.url-item-head .to {
 }
 
 .url-group-item {
-  position: absolute;
   width: 97%;
-  top: 110px;
-  bottom: 30px;
+  height: 360px;
   overflow: auto;
 }
 

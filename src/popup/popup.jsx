@@ -14,7 +14,8 @@ export default class Switcheroo extends Component {
     super(props);
     this.state = {
       localRules: new LocalRulesService(),
-      rules: new LocalRulesService().getRules() || []
+      commonRules: new LocalRulesService().getRules("commonRules") || [],
+      fewRules: new LocalRulesService().getRules("fewRules") || []
     };
   }
 
@@ -24,56 +25,91 @@ export default class Switcheroo extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     /* 当rules为空并且用户没有点击全部删除的动作自动初始化抓取 */
     if (
-      !this.state.localRules.getRules().length &&
+      !this.state.localRules.getRules("commonRules").length &&
       !localStorage["deleteAll"]
     ) {
       chrome.tabs.getSelected(null, tab => {
         localStorage["proxyUrl"] = tab.url;
         chrome.tabs.sendRequest(tab.id, "", response => {
-          // chrome.extension.getBackgroundPage().rules = response.scriptUrlList;
-          this.state.localRules.setRules(response.scriptUrlList || []);
-          this.setState({ rules: response.scriptUrlList || [] });
+          // chrome.extension.getBackgroundPage().rules = response.commonLinks;
+          console.log(response,22222222222)
+          this.state.localRules.setRules(
+            response.commonLinks,
+            response.fewLinks
+          );
+          this.setState({
+            commonRules: response.commonLinks,
+            fewRules: response.fewLinks
+          });
         });
       });
     }
   }
 
   /* 编辑删除链接 */
-  changeRules(rules) {
-    this.setState({ rules });
-    rules = rules.length ? rules : "";
-    this.state.localRules.setRules(rules);
+  changeRules(commonRules, fewRules) {
+    this.setState({ commonRules, fewRules });
+    commonRules = commonRules.length ? commonRules : "";
+    fewRules = fewRules.length ? fewRules : "";
+    this.state.localRules.setRules(commonRules, fewRules);
   }
 
   render() {
+    const headRule = (
+      <li className="url-item url-item-head">
+        <a href="https://github.com/jawil/redirect" target="_blank">
+          有问题？联系我
+        </a>
+        <span class="from">From</span>
+        <span className="seperator" />
+        <span class="to">To</span>
+      </li>
+    );
     return (
       <ul className="url-group">
         <GetLinks
-          rules={this.state.rules}
-          onGetLinks={rules => this.changeRules(rules)}
-        />
-
-        <UrlList
-          rules={this.state.rules}
-          onChangeRule={rules => this.changeRules(rules)}
-        />
-
-        <AddRule
-          rules={this.state.rules}
-          onAddRule={rules => this.changeRules(rules)}
+          commonRules={this.state.commonRules}
+          fewRules={this.state.fewRules}
+          onGetLinks={(commonRules, fewRules) =>
+            this.changeRules(commonRules, fewRules)
+          }
         />
 
         <SelectRule
-          rules={this.state.rules}
-          onSelectRule={rules => this.changeRules(rules)}
+          commonRules={this.state.commonRules}
+          fewRules={this.state.fewRules}
+          onSelectRule={(commonRules, fewRules) =>
+            this.changeRules(commonRules, fewRules)
+          }
         />
 
+        {headRule}
+
+        <UrlList
+          commonRules={this.state.commonRules}
+          fewRules={this.state.fewRules}
+          onChangeRule={(commonRules, fewRules) =>
+            this.changeRules(commonRules, fewRules)
+          }
+        />
+
+        {/*   <AddRule
+          commonRules={this.state.commonRules}
+          fewRules={this.state.fewRules}
+          onAddRule={(commonRules, fewRules) =>
+            this.changeRules(commonRules, fewRules)
+          }
+        /> */}
+
         <Footer
-          rules={this.state.rules}
-          onFooter={rules => this.changeRules(rules)}
+          commonRules={this.state.commonRules}
+          fewRules={this.state.fewRules}
+          onFooter={(commonRules, fewRules) =>
+            this.changeRules(commonRules, fewRules)
+          }
         />
       </ul>
     );

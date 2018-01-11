@@ -1,13 +1,14 @@
 class LocalRulesService {
-  getRules() {
-    let stroredRules = localStorage["rules"];
+  getRules(key) {
+    let stroredRules = localStorage[key];
     if (!stroredRules) {
       return [];
     }
     return JSON.parse(stroredRules);
   }
-  setRules(rules) {
-    localStorage["rules"] = JSON.stringify(rules);
+  setRules(commonRules, fewRules) {
+    localStorage["commonRules"] = JSON.stringify(commonRules);
+    localStorage["fewRules"] = JSON.stringify(fewRules);
   }
 }
 
@@ -80,7 +81,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (
     new RegExp(currentUrl, "g").test(proxyUrl) &&
     JSON.parse(localStorage["isProxy"]) &&
-    JSON.parse(localStorage["rules"]).length
+    JSON.parse(localStorage["commonRules"]).length
   ) {
     showDataOnPage(
       1000,
@@ -94,7 +95,7 @@ chrome.webRequest.onBeforeRequest.addListener(
   details => {
     const isProxy = JSON.parse(localStorage["isProxy"]);
     if (isProxy) {
-      const rules = new LocalRulesService().getRules();
+      const rules = new LocalRulesService().getRules('commonRules');
       const ruleMatcher = new RuleMatcher(rules);
       return ruleMatcher.redirectOnMatch(details);
     }

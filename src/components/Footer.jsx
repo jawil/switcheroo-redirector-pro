@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { message, Popconfirm, Switch } from "antd";
-
+import { LocalRulesService } from "utils/ruleutil";
 /* 手动添加代理地址 */
 export default class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rules: this.props.rules
+      commonRules: this.props.commonRules,
+      fewRules: this.props.fewRules
     };
   }
 
@@ -16,12 +17,20 @@ export default class Footer extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      commonRules: nextProps.commonRules,
+      fewRules: nextProps.fewRules
+    });
+  }
+
   /* 删除全部代理地址 */
   deleteAllRules() {
-    if (this.state.rules.length) {
+    if (this.state.commonRules.length) {
       message.success("全部删除成功！", 1);
-      this.setState({ rules: [] });
-      this.props.onFooter([]);
+      const fewRules = this.state.fewRules.concat(this.state.commonRules);
+      this.setState({ commonRules: [], fewRules });
+      this.props.onFooter([], fewRules);
     } else {
       message.error("暂时没有数据可以删除！", 1);
     }
@@ -43,14 +52,18 @@ export default class Footer extends Component {
           okText="是"
           cancelText="否"
         >
-          <button className="deleteAll-btn">remove all</button>
+          <button className="deleteAll-btn">全部删除</button>
         </Popconfirm>
         <div className="switch">
           <Switch
             onChange={e => this.switchProxy(e)}
-            checkedChildren="proxy on"
-            unCheckedChildren="proxy off"
-            defaultChecked={JSON.parse(localStorage["isProxy"])}
+            checkedChildren="代理开"
+            unCheckedChildren="代理关"
+            defaultChecked={
+              localStorage["isProxy"]
+                ? JSON.parse(localStorage["isProxy"])
+                : true
+            }
           />
         </div>
       </footer>

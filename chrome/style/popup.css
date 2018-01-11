@@ -2,14 +2,14 @@
   margin: 0;
   padding: 0;
 }
-html,
-body {
-  height: auto!important;
+html,body{
+  height: 510px!important;
 }
 #root {
   padding: 10px;
   width: 620px;
   position: relative;
+  height: 500px;
 }
 
 li.url-item {
@@ -38,6 +38,12 @@ li.url-item span:hover {
   opacity: 0.8;
   text-decoration: underline;
   color: #f37327;
+}
+
+li.url-item .seperator:hover {
+  opacity: 1;
+  text-decoration: none;
+  color: red;
 }
 
 li.url-item .from {
@@ -135,21 +141,36 @@ li.url-item-head .to {
   background-position: 0 0;
 }
 
-.deleteAll-btn {
-  background-image: linear-gradient(#f69, red);
-  width: 70px;
-  height: 25px;
-  margin-top: 15px;
-}
-
-.switch {
-  position: absolute;
-  bottom: 23px;
-  right: 15px;
-}
-
 .collect-urls {
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+.url-group-item {
+  position: absolute;
+  width: 97%;
+  top: 110px;
+  bottom: 30px;
+  overflow: auto;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.deleteAll-btn {
+  background-image: linear-gradient(#f69, red);
+  width: 70px;
+  height: 25px;
+  float: left;
+}
+
+.switch {
+  right: 15px;
+  float: right;
+  margin-right: 20px;
 }

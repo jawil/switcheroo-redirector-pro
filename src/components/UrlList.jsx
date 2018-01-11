@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { $ } from "utils/getdom";
 import { autoTextarea } from "utils/textareaAutoHeight";
-
 import { Popconfirm, message, Checkbox } from "antd";
 
 export default class UrlList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rules: this.props.rules
+      commonRules: this.props.commonRules,
+      fewRules: this.props.fewRules
     };
   }
 
@@ -20,7 +20,8 @@ export default class UrlList extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      rules: nextProps.rules
+      commonRules: nextProps.commonRules,
+      fewRules: nextProps.fewRules
     });
   }
 
@@ -54,11 +55,11 @@ export default class UrlList extends Component {
       f => {
         const childSpan = type === "from" ? $(oLi, ".from") : $(oLi, ".to");
 
-        this.state.rules[index - 1][
+        this.state.commonRules[index - 1][
           type
         ] = childSpan.innerHTML = disableEditingText;
 
-        this.props.onChangeRule(this.state.rules);
+        this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
       }
     );
   }
@@ -66,15 +67,15 @@ export default class UrlList extends Component {
   /* 删除代理地址 */
   deleteRule(e, index) {
     message.success("删除成功！", 1);
-    this.state.rules.splice(index - 1, 1);
-    console.log(this.state.rules, 1111);
-    this.props.onChangeRule(this.state.rules);
+    this.state.fewRules.push(this.state.commonRules[index - 1]);
+    this.state.commonRules.splice(index - 1, 1);
+    this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
   }
 
   /* 代理地址是否生效 */
   isProxyActive(e, index) {
-    this.state.rules[index - 1].isActive = e.target.checked;
-    this.props.onChangeRule(this.state.rules);
+    this.state.commonRules[index - 1].isActive = e.target.checked;
+    this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
   }
 
   render() {
@@ -132,33 +133,17 @@ export default class UrlList extends Component {
             cancelText="否"
           >
             <a className="delete-btn" href="javascript:void(0);">
-              delete
+              删除
             </a>
           </Popconfirm>
         </li>
       );
     };
 
-    const headRule = (
-      <li className="url-item url-item-head">
-        <a href="https://github.com/jawil/redirect" target="_blank">
-          problem？contact me
-        </a>
-        <span class="from">From</span>
-        <span className="seperator" />
-        <span class="to">To</span>
-      </li>
-    );
-
-    const urlList = this.state.rules.map((item, index) => {
+    const urlList = this.state.commonRules.map((item, index) => {
       return EditHTML(item, index);
     });
 
-    return (
-      <ul className="url-group">
-        {headRule}
-        {urlList}
-      </ul>
-    );
+    return <ul className="url-group-item">{urlList}</ul>;
   }
 }

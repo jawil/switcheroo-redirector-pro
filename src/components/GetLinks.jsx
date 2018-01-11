@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import { $ } from "utils/getdom";
 import { autoTextarea } from "utils/textareaAutoHeight";
 import { Popconfirm, Button } from "antd";
-import { LocalRulesService } from "utils/ruleutil";
 /* 抓取页面所有链接 */
 export default class GetLinks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rules: this.props.rules,
+      commonRules: this.props.commonRules,
       loading: false
     };
   }
@@ -22,13 +21,13 @@ export default class GetLinks extends Component {
   /* 抓取页面loading 开启 */
   enterLoading() {
     this.setState({ loading: true });
-    this.props.onGetLinks([]);
+    this.props.onGetLinks([], []);
     setTimeout(f => {
       chrome.tabs.getSelected(null, tab => {
         localStorage["proxyUrl"] = tab.url;
         chrome.tabs.sendRequest(tab.id, "", response => {
-          // chrome.extension.getBackgroundPage().rules = response.scriptUrlList;
-          this.props.onGetLinks(response.scriptUrlList || []);
+          // chrome.extension.getBackgroundPage().rules = response.commonLinks;
+          this.props.onGetLinks(response.commonLinks, response.fewLinks);
           this.setState({
             loading: false
           });
@@ -48,7 +47,7 @@ export default class GetLinks extends Component {
 
   render() {
     return (
-      <div className="collect-urls">
+      <li className="collect-urls">
         <Popconfirm
           placement="right"
           title="是否清空链接重新抓取？"
@@ -62,9 +61,9 @@ export default class GetLinks extends Component {
         </Popconfirm>
 
         <Button size="small" type="dashed" onClick={e => this.refreshPage(e)}>
-          refresh page
+         刷新页面
         </Button>
-      </div>
+      </li>
     );
   }
 }

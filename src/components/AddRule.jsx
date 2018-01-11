@@ -8,7 +8,8 @@ export default class AddRule extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rules: this.props.rules
+      commonRules: this.props.commonRules,
+      fewRules: this.props.fewRules
     };
   }
 
@@ -17,7 +18,12 @@ export default class AddRule extends Component {
       auth: "叶念"
     };
   }
-
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      commonRules: nextProps.commonRules,
+      fewRules: nextProps.fewRules
+    });
+  }
   addNewRule(e) {
     const oLi = e.target.parentNode;
     let newRule = {
@@ -29,8 +35,8 @@ export default class AddRule extends Component {
         .substring(2)
     };
     if (newRule.from) {
-      this.state.rules.push(newRule);
-      this.props.onAddRule(this.state.rules);
+      this.state.commonRules.push(newRule);
+      this.props.onAddRule(this.state.commonRules, this.state.fewRules);
       $(oLi, ".from").value = "";
       $(oLi, ".to").value = "";
       message.success("添加成功！", 1);
@@ -55,7 +61,7 @@ export default class AddRule extends Component {
           placeholder="http://127.0.0.1:3000/"
         />
         <button onClick={e => this.addNewRule(e)} className="add-btn">
-          add
+          增加
         </button>
       </li>
     );

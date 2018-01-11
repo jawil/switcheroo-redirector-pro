@@ -20,8 +20,7 @@
     "webRequestBlocking",
     "<all_urls>",
     "tabs",
-    "storage",
-    "*://github.com/*"
+    "storage"
   ],
   "content_security_policy":
     "default-src 'self'; script-src 'self' https://ajax.googleapis.com https://sentry.io 'unsafe-eval'; style-src * 'unsafe-inline';font-src 'self' https://at.alicdn.com",
@@ -31,7 +30,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content/content.js"],
+      "js": ["content/contentscript.js"],
       "css": ["style/styles.css"],
       "run_at": "document_end",
       "all_frames": true

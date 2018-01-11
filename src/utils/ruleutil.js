@@ -1,13 +1,14 @@
 class LocalRulesService {
-  getRules() {
-    let stroredRules = localStorage["rules"];
+  getRules(key) {
+    let stroredRules = localStorage[key];
     if (!stroredRules) {
       return [];
     }
     return JSON.parse(stroredRules);
   }
-  setRules(rules) {
-    localStorage["rules"] = JSON.stringify(rules);
+  setRules(commonRules, fewRules) {
+    localStorage["commonRules"] = JSON.stringify(commonRules);
+    localStorage["fewRules"] = JSON.stringify(fewRules);
   }
 }
 

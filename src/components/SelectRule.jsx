@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { LocalRulesService } from "utils/ruleutil";
 import { message, Select } from "antd";
 const Option = Select.Option;
 /* 手动添加代理地址 */
@@ -7,7 +7,10 @@ export default class SelectRule extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rules: this.props.rules
+      commonRules: this.props.commonRules,
+      fewRules: this.props.fewRules,
+      selected: [],
+      isAdd: false
     };
   }
 
@@ -17,15 +20,52 @@ export default class SelectRule extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      commonRules: nextProps.commonRules,
+      fewRules: nextProps.fewRules
+    });
+  }
+
   selectedRules(dataArr) {
-    console.log(dataArr);
+    if (dataArr.length) {
+      this.state.isAdd = true;
+    }
+    this.state.selected = dataArr.map(item => {
+      return {
+        from: item,
+        to: "http://127.0.0.1:3000/",
+        isActive: true,
+        $$hashKey: Math.random()
+          .toString(16)
+          .substring(2)
+      };
+    });
+
+    this.state.fewRules = this.state.fewRules.filter(item => {
+      return dataArr.indexOf(item.from) === -1;
+    });
   }
   /* 添加新的代理地址 */
   addSelectNewRule(e) {
-    console.log(1);
-  }
+    const commonRules = this.state.commonRules.concat(this.state.selected);
+    const fewRules = this.state.fewRules;
+    this.props.onSelectRule(commonRules, fewRules);
+    if (this.state.isAdd) {
+      message.success("添加成功！", 1);
+      this.state.isAdd = false;
+    } else {
+      message.error("链接不能为空！", 1);
+    }
 
+    const clearEle = document.querySelector(".ant-select-selection__clear");
+    clearEle && clearEle.click();
+  }
   render() {
+    const children = this.state.fewRules.map(item => {
+      return <Option key={item.from}>{item.from}</Option>;
+    });
+
     return (
       <li className="url-item">
         <Select
@@ -33,18 +73,12 @@ export default class SelectRule extends Component {
           style={{ width: "87%", marginRight: "10px" }}
           placeholder="点击选择或填写要代理的链接"
           onChange={dataArr => this.selectedRules(dataArr)}
+          allowClear={true}
         >
-          <Option key="1">"https://baidu.com"</Option>
-          <Option key="2">"https://google.com"</Option>
-          <Option key="3">"https://facebook.com"</Option>
-          <Option key="4">"https://microsoft.com"</Option>
-          <Option key="5">"https://alibaba.com"</Option>
-          <Option key="https://g.alicdn.com/platform/c/rasterizehtml/1.2.4/dist/">
-            "https://g.alicdn.com/platform/c/rasterizehtml/1.2.4/dist/"
-          </Option>
+          {children}
         </Select>
         <button onClick={e => this.addSelectNewRule(e)} className="add-btn">
-          add
+          增加
         </button>
       </li>
     );

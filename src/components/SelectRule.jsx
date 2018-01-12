@@ -32,9 +32,13 @@ export default class SelectRule extends Component {
       this.state.isAdd = true;
     }
     this.state.selected = dataArr.map(item => {
+      let toUrl = "http://127.0.0.1:3000/";
+      if (/\/+\?\?/.test(item)) {
+        toUrl = item.replace(/\.min/g, "");
+      }
       return {
         from: item,
-        to: "http://127.0.0.1:3000/",
+        to: toUrl,
         isActive: true,
         $$hashKey: Math.random()
           .toString(16)

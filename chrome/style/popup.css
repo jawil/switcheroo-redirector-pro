@@ -10,7 +10,7 @@ body {
 }
 #root {
   padding: 10px;
-  width: 620px;
+  width: 603px;
   position: relative;
   height: 500px;
   background: #fff;
@@ -29,6 +29,7 @@ li.url-item textarea {
   box-sizing: border-box;
   word-break: break-all;
   height: 20px;
+  color: #f37327;
 }
 
 li.url-item span {
@@ -36,12 +37,12 @@ li.url-item span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgb(3, 102, 214);
+  color: #333;
 }
 li.url-item span:hover {
   opacity: 0.8;
   text-decoration: underline;
-  color: #f37327;
+  color: rgb(3, 102, 214);
 }
 
 li.url-item .seperator:hover {
@@ -58,7 +59,7 @@ li.url-item .from {
 }
 
 li.url-item-head {
-  background: rgb(190, 200, 200);
+  background: rgba(3, 102, 214,0.4);
   font-size: 15px;
   position: relative;
   font-weight: bold;
@@ -113,38 +114,13 @@ li.url-item-head .to {
   margin-left: 8px;
 }
 
-.add-btn,
-.deleteAll-btn {
-  cursor: pointer;
-  width: 50px;
-  height: 22px;
-  margin-left: 10px;
-  border: 1px solid rgba(31, 56, 88, 0.2);
-  box-shadow: 0 1px 4px 0 rgba(31, 56, 88, 0.15);
-  color: #fff;
-  outline: none;
-  border: none;
-  background-image: linear-gradient(#5187c4, #1c2f45);
-  background-size: auto 200%;
-  background-position: 0 100%;
-  transition: background-position 0.5s;
-  vertical-align: middle;
-  border-radius: 5px;
-}
-
-.add-btn {
-  width: 66px;
-  height: 22px;
-  margin-left: 0;
-}
 .delete-btn {
   text-decoration: underline;
-  color: #333;
+  color: red;
   margin-left: 8px;
 }
-.add-btn:hover,
-.deleteAll-btn:hover {
-  background-position: 0 0;
+.delete-btn:hover{
+  color:red;
 }
 
 .collect-urls {
@@ -154,7 +130,6 @@ li.url-item-head .to {
 }
 
 .url-group-item {
-  width: 97%;
   height: 360px;
   overflow: auto;
 }
@@ -171,10 +146,10 @@ footer {
 }
 
 .deleteAll-btn {
-  background-image: linear-gradient(#f69, red);
   width: 70px;
   height: 25px;
   float: left;
+  margin-left: 10px;
 }
 
 .switch {

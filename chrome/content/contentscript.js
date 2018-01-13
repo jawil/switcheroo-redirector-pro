@@ -30,7 +30,9 @@ let generatorScriptUrl = scriptUrl
   .map(item => {
     let toUrl = "http://127.0.0.1:3000/";
     if (/\/+\?\?/.test(item)) {
-      toUrl = item.replace(/\.min/g, "");
+      toUrl = item.split(",").map(item => {
+        return item.replace(/(react.*)\.min/g, "$1");
+      });
     }
     return {
       from: item,
@@ -69,8 +71,10 @@ if (!generatorScriptUrl.length) {
   generatorScriptUrl.forEach((item, index, array) => {
     if (/\/+\?\?/.test(item.from)) {
       commonLinks.push(item);
-    } else {
+    } else if (/\/platform\/(monitor)|(openwork)|(common)/.test(item.from)) {
       fewLinks.push(item);
+    } else {
+      commonLinks.push(item);
     }
   });
 }

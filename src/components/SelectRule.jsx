@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { LocalRulesService } from "utils/ruleutil";
-import { message, Select } from "antd";
+import { message, Select, Button } from "antd";
 const Option = Select.Option;
 /* 手动添加代理地址 */
 export default class SelectRule extends Component {
@@ -74,16 +74,14 @@ export default class SelectRule extends Component {
       <li className="url-item">
         <Select
           mode="tags"
-          style={{ width: "87%", marginRight: "10px" }}
+          style={{ width: "90%", marginRight: "10px" }}
           placeholder="点击选择或填写要代理的链接"
           onChange={dataArr => this.selectedRules(dataArr)}
           allowClear={true}
         >
           {children}
         </Select>
-        <button onClick={e => this.addSelectNewRule(e)} className="add-btn">
-          增加
-        </button>
+        <Button onClick={e => this.addSelectNewRule(e)} size="small">增加</Button>
       </li>
     );
   }

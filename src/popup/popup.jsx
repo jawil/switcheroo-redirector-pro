@@ -8,7 +8,6 @@ import AddRule from "components/AddRule";
 import GetLinks from "components/GetLinks";
 import SelectRule from "components/SelectRule";
 import Footer from "components/Footer";
-
 export default class Switcheroo extends Component {
   constructor(props) {
     super(props);
@@ -94,14 +93,6 @@ export default class Switcheroo extends Component {
             this.changeRules(commonRules, fewRules)
           }
         />
-
-        {/*   <AddRule
-          commonRules={this.state.commonRules}
-          fewRules={this.state.fewRules}
-          onAddRule={(commonRules, fewRules) =>
-            this.changeRules(commonRules, fewRules)
-          }
-        /> */}
 
         <Footer
           commonRules={this.state.commonRules}

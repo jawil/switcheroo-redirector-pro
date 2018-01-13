@@ -140,10 +140,39 @@ export default class UrlList extends Component {
       );
     };
 
-    const urlList = this.state.commonRules.map((item, index) => {
+    const minifyUrl = [];
+    const commonUrl = [];
+    this.state.commonRules.forEach(item => {
+      if (/\/+\?\?/.test(item.from)) {
+        minifyUrl.push(item);
+      } else {
+        commonUrl.push(item);
+      }
+    });
+
+    const commonUrlList = commonUrl.map((item, index) => {
       return EditHTML(item, index);
     });
 
-    return <ul className="url-group-item">{urlList}</ul>;
+    const tips = (
+      <li className="url-item url-item-head">
+        <span class="from">React.min.js</span>
+        <span className="seperator" />
+        <span class="to">React.js</span>
+      </li>
+    );
+
+    const minifyUrlList = minifyUrl.map((item, index) => {
+      let currentIndex = commonUrlList.length + index;
+      return EditHTML(item, currentIndex);
+    });
+
+    return (
+      <ul className="url-group-item">
+        {commonUrlList}
+        {minifyUrl.length ? tips : ""}
+        {minifyUrlList}
+      </ul>
+    );
   }
 }

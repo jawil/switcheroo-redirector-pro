@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { message, Popconfirm, Switch } from "antd";
+import { message, Popconfirm, Switch, Button } from "antd";
 import { LocalRulesService } from "utils/ruleutil";
 /* 手动添加代理地址 */
 export default class Footer extends Component {
@@ -52,7 +52,11 @@ export default class Footer extends Component {
           okText="是"
           cancelText="否"
         >
-          <button className="deleteAll-btn">全部删除</button>
+          <div className="deleteAll-btn">
+            <Button  size="small" type="danger">
+              全部删除
+            </Button>
+          </div>
         </Popconfirm>
         <div className="switch">
           <Switch

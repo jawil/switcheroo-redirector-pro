@@ -1,6 +1,6 @@
 {
   "name": "Switcheroo Redirector Plus",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "manifest_version": 2,
   "description":
     "Setup custom redirect rules for any http request i.e pages, scripts, images etc. Uses a simple string replace to do this.",
@@ -11,7 +11,7 @@
   },
   "browser_action": {
     "default_icon": "images/switch-browser.png",
-    "default_title": "Add switcheroo rules.",
+    "default_title": "Switcheroo Redirector Plus",
     "default_popup": "popup.html"
   },
   "permissions": [
@@ -39,18 +39,18 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "windows": "Ctrl+K",
-        "mac": "Command+K",
-        "chromeos": "Ctrl+K",
-        "linux": "Ctrl+K"
-      }
-    },
-    "open-in-content-page": {
-      "suggested_key": {
         "windows": "Ctrl+J",
         "mac": "Command+J",
         "chromeos": "Ctrl+J",
         "linux": "Ctrl+J"
+      }
+    },
+    "open-in-content-page": {
+      "suggested_key": {
+        "windows": "Ctrl+U",
+        "mac": "Command+U",
+        "chromeos": "Ctrl+U",
+        "linux": "Ctrl+U"
       },
       "description": "__MSG_pageboxDesc__",
       "global": true

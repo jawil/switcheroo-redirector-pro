@@ -52,7 +52,7 @@ export default class SelectRule extends Component {
   }
   /* 添加新的代理地址 */
   addSelectNewRule(e) {
-    const commonRules = this.state.commonRules.concat(this.state.selected);
+    const commonRules = [...this.state.commonRules, ...this.state.selected];
     const fewRules = this.state.fewRules;
     this.props.onSelectRule(commonRules, fewRules);
     if (this.state.isAdd) {
@@ -81,7 +81,9 @@ export default class SelectRule extends Component {
         >
           {children}
         </Select>
-        <Button onClick={e => this.addSelectNewRule(e)} size="small">增加</Button>
+        <Button onClick={e => this.addSelectNewRule(e)} size="small">
+          增加
+        </Button>
       </li>
     );
   }

@@ -44,21 +44,23 @@ export default class UrlList extends Component {
 
   /* 离开焦点进入展示模式 */
   disableEditing(e, type, index) {
+    console.log(this.state.commonRules[index], 1);
     const disableEditingText = e.target.value;
     const oLi = e.target.parentNode;
     const EditType =
       type === "from" ? `isEditFrom${index}` : `isEditTo${index}`;
+
     this.setState(
       {
         [EditType]: index
       },
       f => {
         const childSpan = type === "from" ? $(oLi, ".from") : $(oLi, ".to");
-
-        this.state.commonRules[index - 1][
+        this.state.commonRules[index][
           type
         ] = childSpan.innerHTML = disableEditingText;
 
+        console.log(this.state.commonRules[index], 2);
         this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
       }
     );
@@ -67,21 +69,20 @@ export default class UrlList extends Component {
   /* 删除代理地址 */
   deleteRule(e, index) {
     message.success("删除成功！", 1);
-    this.state.fewRules.push(this.state.commonRules[index - 1]);
-    this.state.commonRules.splice(index - 1, 1);
+    this.state.fewRules.push(this.state.commonRules[index]);
+    this.state.commonRules.splice(index, 1);
     this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
   }
 
   /* 代理地址是否生效 */
   isProxyActive(e, index) {
-    this.state.commonRules[index - 1].isActive = e.target.checked;
+    this.state.commonRules[index].isActive = e.target.checked;
     this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
   }
 
   render() {
-    const EditHTML = (item, i) => {
-      const index = i + 1;
-      if (!this.state[`isEditFrom${index}`]) {
+    const EditHTML = (item, index) => {
+      if (this.state[`isEditFrom${index}`] === void 0) {
         this.state[`isEditFrom${index}`] = index;
         this.state[`isEditTo${index}`] = index;
       }
@@ -149,6 +150,8 @@ export default class UrlList extends Component {
         commonUrl.push(item);
       }
     });
+
+    this.state.commonRules = [...commonUrl, ...minifyUrl];
 
     const commonUrlList = commonUrl.map((item, index) => {
       return EditHTML(item, index);

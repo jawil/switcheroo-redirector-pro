@@ -30,9 +30,12 @@ let generatorScriptUrl = scriptUrl
   .map(item => {
     let toUrl = "http://127.0.0.1:3000/";
     if (/\/+\?\?/.test(item)) {
-      toUrl = item.split(",").map(item => {
-        return item.replace(/(react.*)\.min/g, "$1");
-      });
+      toUrl = item
+        .split(",")
+        .map(item => {
+          return item.replace(/(react.*)\.min/g, "$1");
+        })
+        .join(",");
     }
     return {
       from: item,

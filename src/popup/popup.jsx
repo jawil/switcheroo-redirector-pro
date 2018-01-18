@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import Eventemitter from "wolfy87-eventemitter";
+const eventbus = new Eventemitter();
 import { $ } from "utils/getdom";
 import { LocalRulesService } from "utils/ruleutil";
+const localRules = new LocalRulesService();
 import "./index.css";
-
 import UrlList from "components/UrlList";
 import AddRule from "components/AddRule";
 import GetLinks from "components/GetLinks";
@@ -12,9 +14,9 @@ export default class Switcheroo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      localRules: new LocalRulesService(),
-      commonRules: new LocalRulesService().getRules("commonRules") || [],
-      fewRules: new LocalRulesService().getRules("fewRules") || []
+      commonRules: localRules.getRules("commonRules") || [],
+      fewRules: localRules.getRules("fewRules") || [],
+      allScriptLinks: JSON.parse(localStorage["allScriptLinks"])
     };
   }
 
@@ -27,20 +29,20 @@ export default class Switcheroo extends Component {
   componentWillMount() {
     /* 当rules为空并且用户没有点击全部删除的动作自动初始化抓取 */
     if (
-      !this.state.localRules.getRules("commonRules").length &&
+      !localRules.getRules("commonRules").length &&
       !localStorage["deleteAll"]
     ) {
       chrome.tabs.getSelected(null, tab => {
         localStorage["proxyUrl"] = tab.url;
         chrome.tabs.sendRequest(tab.id, "", response => {
-          // chrome.extension.getBackgroundPage().rules = response.commonLinks;
-          this.state.localRules.setRules(
-            response.commonLinks,
-            response.fewLinks
+          localRules.setRules(response.commonLinks, response.fewLinks);
+          localStorage["allScriptLinks"] = JSON.stringify(
+            response.allScriptLinks
           );
           this.setState({
             commonRules: response.commonLinks,
-            fewRules: response.fewLinks
+            fewRules: response.fewLinks,
+            allScriptLinks: response.allScriptLinks
           });
         });
       });
@@ -52,7 +54,7 @@ export default class Switcheroo extends Component {
     this.setState({ commonRules, fewRules });
     commonRules = commonRules.length ? commonRules : "";
     fewRules = fewRules.length ? fewRules : "";
-    this.state.localRules.setRules(commonRules, fewRules);
+    localRules.setRules(commonRules, fewRules);
   }
 
   render() {
@@ -74,6 +76,7 @@ export default class Switcheroo extends Component {
           onGetLinks={(commonRules, fewRules) =>
             this.changeRules(commonRules, fewRules)
           }
+          eventbus={eventbus}
         />
 
         <SelectRule
@@ -89,9 +92,11 @@ export default class Switcheroo extends Component {
         <UrlList
           commonRules={this.state.commonRules}
           fewRules={this.state.fewRules}
+          allScriptLinks={this.state.allScriptLinks}
           onChangeRule={(commonRules, fewRules) =>
             this.changeRules(commonRules, fewRules)
           }
+          eventbus={eventbus}
         />
 
         <Footer

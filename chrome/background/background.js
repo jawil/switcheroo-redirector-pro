@@ -73,6 +73,9 @@ if (!localStorage["isProxy"]) {
   localStorage["isProxy"] = "true";
 }
 
+if (!localStorage["allScriptLinks"]) {
+  localStorage["allScriptLinks"] = JSON.stringify([]);
+}
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   sendResponse({ proxyUrl: localStorage["proxyUrl"] });
   let currentUrl = request.currentUrl;
@@ -95,7 +98,7 @@ chrome.webRequest.onBeforeRequest.addListener(
   details => {
     const isProxy = JSON.parse(localStorage["isProxy"]);
     if (isProxy) {
-      const rules = new LocalRulesService().getRules('commonRules');
+      const rules = new LocalRulesService().getRules("commonRules");
       const ruleMatcher = new RuleMatcher(rules);
       return ruleMatcher.redirectOnMatch(details);
     }

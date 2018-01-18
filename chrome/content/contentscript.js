@@ -4,6 +4,15 @@ chrome.runtime.sendMessage({ currentUrl: currentUrl }, function(response) {
   let proxyUrl = response.proxyUrl;
 });
 
+const allScriptLinks = Array.from(document.querySelectorAll("script"))
+  .map(item => {
+    return item.src;
+  })
+  .filter(item => {
+    return !!item == true;
+  });
+
+console.log(allScriptLinks);
 const scriptUrlList = Array.from(document.querySelectorAll("script"))
   .map(item => {
     if (/\/+\?\?/.test(item.src)) {
@@ -82,11 +91,10 @@ if (!generatorScriptUrl.length) {
   });
 }
 
-console.log(commonLinks, fewLinks);
-
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
   sendResponse({
-    commonLinks: commonLinks,
-    fewLinks: fewLinks
+    commonLinks,
+    fewLinks,
+    allScriptLinks
   });
 });

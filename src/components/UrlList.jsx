@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { $ } from "utils/getdom";
 import { autoTextarea } from "utils/textareaAutoHeight";
-import { Popconfirm, message, Checkbox } from "antd";
+import { Popconfirm, message, Checkbox, AutoComplete, Input } from "antd";
+const { TextArea } = Input;
 
 export default class UrlList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       commonRules: this.props.commonRules,
-      fewRules: this.props.fewRules
+      fewRules: this.props.fewRules,
+      dataSource: this.props.allScriptLinks
     };
   }
 
@@ -25,11 +27,19 @@ export default class UrlList extends Component {
     });
   }
 
+  componentDidMount() {
+    this.props.eventbus.on("autoComplete", dataSource => {
+      this.setState({ dataSource });
+    });
+  }
+
   /* 双击进入编辑模式 */
   ableEditing(e, type, index) {
     const EditType =
       type === "from" ? `isEditFrom${index}` : `isEditTo${index}`;
     const oLi = e.target.parentNode;
+    
+    console.log(this.state.dataSource,1111111)
     this.setState(
       {
         [EditType]: "jawil"
@@ -37,7 +47,7 @@ export default class UrlList extends Component {
       f => {
         const childTextArea = type === "from" ? $(oLi, ".from") : $(oLi, ".to");
         autoTextarea(childTextArea);
-        childTextArea.focus();
+        childTextArea.click();
       }
     );
   }
@@ -98,11 +108,16 @@ export default class UrlList extends Component {
               {item.from}
             </span>
           ) : (
-            <textarea
-              class="from"
-              onBlur={e => this.disableEditing(e, "from", index)}
+            <AutoComplete
+              dataSource={this.state.dataSource}
               defaultValue={item.from}
-            />
+              filterOption
+            >
+              <TextArea
+                className="from textarea"
+                onBlur={e => this.disableEditing(e, "from", index)}
+              />
+            </AutoComplete>
           )}
 
           <span className="seperator">&gt;</span>
@@ -116,11 +131,16 @@ export default class UrlList extends Component {
               {item.to}
             </span>
           ) : (
-            <textarea
-              class="to"
-              onBlur={e => this.disableEditing(e, "to", index)}
+            <AutoComplete
+              dataSource={this.state.dataSource}
               defaultValue={item.to}
-            />
+              filterOption
+            >
+              <TextArea
+                className="to textarea"
+                onBlur={e => this.disableEditing(e, "to", index)}
+              />
+            </AutoComplete>
           )}
           <Checkbox
             defaultChecked={item.isActive}
@@ -159,9 +179,9 @@ export default class UrlList extends Component {
 
     const tips = (
       <li className="url-item url-item-head">
-        <span class="from">React.min.js</span>
+        <span className="from">React.min.js</span>
         <span className="seperator" />
-        <span class="to">React.js</span>
+        <span className="to">React.js</span>
       </li>
     );
 

@@ -22,14 +22,15 @@ li.url-item {
   font-size: 13px;
 }
 
-li.url-item textarea {
+li.url-item .textarea {
   outline: none !important;
   resize: none !important;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   word-break: break-all;
-  height: 20px;
   color: #f37327;
+  padding-left: 0;
+  font-size: 12px;
 }
 
 li.url-item span {
@@ -59,7 +60,7 @@ li.url-item .from {
 }
 
 li.url-item-head {
-  background: rgba(3, 102, 214,0.4);
+  background: rgba(3, 102, 214, 0.4);
   font-size: 15px;
   position: relative;
   font-weight: bold;
@@ -119,8 +120,8 @@ li.url-item-head .to {
   color: red;
   margin-left: 8px;
 }
-.delete-btn:hover{
-  color:red;
+.delete-btn:hover {
+  color: red;
 }
 
 .collect-urls {

@@ -32,6 +32,10 @@ export default class GetLinks extends Component {
             this.setState({
               loading: false
             });
+            localStorage["allScriptLinks"] = JSON.stringify(
+              response.allScriptLinks
+            );
+            this.props.eventbus.emit("autoComplete", response.allScriptLinks);
           } else {
             message.error("请刷新页面生效后再重新获取！", 1);
           }

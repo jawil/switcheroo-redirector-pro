@@ -111,6 +111,7 @@ export default class UrlList extends Component {
             <AutoComplete
               dataSource={this.state.dataSource}
               defaultValue={item.from}
+              dropdownClassName="ant-dropdown-custom"
               filterOption
             >
               <TextArea
@@ -134,6 +135,7 @@ export default class UrlList extends Component {
             <AutoComplete
               dataSource={this.state.dataSource}
               defaultValue={item.to}
+              dropdownClassName="ant-dropdown-custom"
               filterOption
             >
               <TextArea

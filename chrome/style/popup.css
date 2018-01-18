@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
 }
+
 html,
 body {
   height: 510px !important;
@@ -30,7 +31,7 @@ li.url-item .textarea {
   word-break: break-all;
   color: #f37327;
   padding-left: 0;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 li.url-item span {
@@ -157,4 +158,7 @@ footer {
   right: 15px;
   float: right;
   margin-right: 20px;
+}
+.ant-dropdown-custom {
+  width: auto !important;
 }

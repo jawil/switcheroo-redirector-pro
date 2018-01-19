@@ -87,8 +87,6 @@ export default class Switcheroo extends Component {
           }
         />
 
-        {headRule}
-
         <UrlList
           commonRules={this.state.commonRules}
           fewRules={this.state.fewRules}

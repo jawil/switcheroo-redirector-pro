@@ -11,19 +11,20 @@ body {
 }
 #root {
   padding: 10px;
-  width: 603px;
+  width: 550px;
   position: relative;
   height: 500px;
   background: #fff;
 }
 
-li.url-item {
+.url-group-item .url-item {
   list-style: none;
   margin-bottom: 5px;
-  font-size: 13px;
+  font-size: 12px;
+  border-bottom: 1px solid #d3d3d3;
 }
 
-li.url-item .textarea {
+.url-group-item .url-item .textarea {
   outline: none !important;
   resize: none !important;
   border: 1px solid #d3d3d3;
@@ -31,89 +32,43 @@ li.url-item .textarea {
   word-break: break-all;
   color: #f37327;
   padding-left: 0;
-  font-size: 13px;
+  font-size: 12px;
+  text-align: center;
 }
 
-li.url-item span {
+.url-group-item .url-item .common {
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #333;
+  width: 100%;
+  text-align: center;
 }
-li.url-item span:hover {
+.url-group-item .url-item .common:hover {
   opacity: 0.8;
   text-decoration: underline;
   color: rgb(3, 102, 214);
 }
 
-li.url-item .seperator:hover {
+.url-group-item .url-item .seperator:hover {
   opacity: 1;
   text-decoration: none;
   color: red;
 }
 
-li.url-item .from {
-  display: inline-block;
-  width: 300px;
-  vertical-align: middle;
-  text-indent: 5px;
-}
-
-li.url-item-head {
-  background: rgba(3, 102, 214, 0.4);
-  font-size: 15px;
-  position: relative;
+.url-group-item .url-item .seperator {
   font-weight: bold;
+  color: red;
+  cursor: default;
+  position: relative;
 }
 
-li.url-item-head span:hover {
-  opacity: 1;
-  text-decoration: none;
-  color: #fff;
-}
-
-li.url-item-head a {
+.url-group-item .url-item .seperator .operator {
   position: absolute;
   right: 0;
-  bottom: 0;
-  color: gray;
-  font-size: 12px;
-  padding: 2px 5px;
-}
-
-li.url-item-head a:hover {
-  opacity: 0.7;
-}
-
-li.url-item-head span:hover {
-  cursor: default;
-}
-
-li.url-item .seperator {
-  display: inline-block;
-  font-weight: bold;
-  color: red;
-  padding: 0 20px;
-  font-size: 16px;
-  vertical-align: middle;
-  cursor: default;
-}
-
-li.url-item .to {
-  display: inline-block;
-  width: 170px;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
-li.url-item-head .from {
-  color: white;
-}
-
-li.url-item-head .to {
-  color: white;
-  margin-left: 8px;
+  top: 0;
+  width: auto;
 }
 
 .delete-btn {
@@ -132,12 +87,24 @@ li.url-item-head .to {
 }
 
 .url-group-item {
-  height: 360px;
+  height: 365px;
   overflow: auto;
 }
 
 .url-group-item::-webkit-scrollbar {
   display: none;
+}
+.url-group-item .url-item-minify .from {
+  margin-left: 146px;
+}
+.url-group-item .url-item-minify span {
+  vertical-align: middle;
+  font-size: 16px;
+  font-weight: bold;
+  color: #08c;
+}
+.url-group-item .url-item-minify .arrow-right {
+  padding: 0 10px;
 }
 
 footer {
@@ -160,9 +127,11 @@ footer {
   margin-right: 20px;
 }
 .ant-dropdown-custom {
-  width: auto !important;
+  width: 581px !important;
+  text-align: center;
+  font-size: 12px!important;
 }
 
-.minify{
+.minify {
   display: none;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { $ } from "utils/getdom";
 import { autoTextarea } from "utils/textareaAutoHeight";
-import { Popconfirm, message, Checkbox, AutoComplete, Input } from "antd";
+import { Popconfirm, message, Checkbox, AutoComplete, Input, Icon } from "antd";
 const { TextArea } = Input;
 
 export default class UrlList extends Component {
@@ -65,7 +65,7 @@ export default class UrlList extends Component {
         this.state.commonRules[index][type] = disableEditingText;
 
         if (type === "from") {
-          if (/\.(js|css)$/.test(disableEditingText)) {
+          if (/\.(js|css)\?/.test(disableEditingText)) {
             const langType = disableEditingText.split("/").pop();
             const originLangType = this.state.commonRules[index]["to"]
               .split("/")
@@ -109,17 +109,18 @@ export default class UrlList extends Component {
       return (
         <li key={index} className="url-item">
           {this.state[`isEditFrom${index}`] === index ? (
-            <span
-              className="from"
+            <div
+              className="from common"
               onDoubleClick={e => this.ableEditing(e, "from", index)}
               title={item.from}
             >
               {item.from}
-            </span>
+            </div>
           ) : (
             <AutoComplete
               dataSource={this.state.dataSource}
               defaultValue={item.from}
+              style={{ width: "100%", textAlign: "center" }}
               dropdownClassName={`ant-dropdown-custom ${minify ? minify : ""}`}
               filterOption
             >
@@ -130,20 +131,46 @@ export default class UrlList extends Component {
             </AutoComplete>
           )}
 
-          <span className="seperator">&gt;</span>
+          <div className="seperator common">
+            <div className="arrow">
+              <Icon
+                type="arrow-down"
+                style={{ fontSize: 16, fontWeight: "bold", color: "#08c" }}
+              />
+            </div>
+
+            <div className="operator">
+              <Checkbox
+                defaultChecked={item.isActive}
+                onChange={e => this.isProxyActive(e, index)}
+              />
+              <Popconfirm
+                placement="left"
+                title="你确认删除吗？"
+                onConfirm={e => this.deleteRule(e, index)}
+                okText="是"
+                cancelText="否"
+              >
+                <a className="delete-btn" href="javascript:void(0);">
+                  删除
+                </a>
+              </Popconfirm>
+            </div>
+          </div>
 
           {this.state[`isEditTo${index}`] === index ? (
-            <span
-              className="to"
+            <div
+              className="to common"
               onDoubleClick={e => this.ableEditing(e, "to", index)}
               title={item.to}
             >
               {item.to}
-            </span>
+            </div>
           ) : (
             <AutoComplete
               dataSource={this.state.dataSource}
               defaultValue={item.to}
+              style={{ width: "100%", textAlign: "center" }}
               dropdownClassName={`ant-dropdown-custom ${minify ? minify : ""}`}
               filterOption
             >
@@ -153,21 +180,6 @@ export default class UrlList extends Component {
               />
             </AutoComplete>
           )}
-          <Checkbox
-            defaultChecked={item.isActive}
-            onChange={e => this.isProxyActive(e, index)}
-          />
-          <Popconfirm
-            placement="left"
-            title="你确认删除吗？"
-            onConfirm={e => this.deleteRule(e, index)}
-            okText="是"
-            cancelText="否"
-          >
-            <a className="delete-btn" href="javascript:void(0);">
-              删除
-            </a>
-          </Popconfirm>
         </li>
       );
     };
@@ -189,9 +201,15 @@ export default class UrlList extends Component {
     });
 
     const tips = (
-      <li className="url-item url-item-head">
+      <li className="url-item-minify">
         <span className="from">React.min.js</span>
-        <span className="seperator" />
+        <span class="arrow-right">
+          <Icon
+            type="arrow-right"
+            style={{ fontSize: 16, fontWeight: "bold", color: "#08c" }}
+          />
+        </span>
+
         <span className="to">React.js</span>
       </li>
     );

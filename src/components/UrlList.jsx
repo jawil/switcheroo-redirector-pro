@@ -38,8 +38,7 @@ export default class UrlList extends Component {
     const EditType =
       type === "from" ? `isEditFrom${index}` : `isEditTo${index}`;
     const oLi = e.target.parentNode;
-    
-    console.log(this.state.dataSource,1111111)
+
     this.setState(
       {
         [EditType]: "jawil"
@@ -54,7 +53,6 @@ export default class UrlList extends Component {
 
   /* 离开焦点进入展示模式 */
   disableEditing(e, type, index) {
-    console.log(this.state.commonRules[index], 1);
     const disableEditingText = e.target.value;
     const oLi = e.target.parentNode;
     const EditType =
@@ -70,7 +68,6 @@ export default class UrlList extends Component {
           type
         ] = childSpan.innerHTML = disableEditingText;
 
-        console.log(this.state.commonRules[index], 2);
         this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
       }
     );
@@ -91,7 +88,7 @@ export default class UrlList extends Component {
   }
 
   render() {
-    const EditHTML = (item, index) => {
+    const EditHTML = (item, index, minify) => {
       if (this.state[`isEditFrom${index}`] === void 0) {
         this.state[`isEditFrom${index}`] = index;
         this.state[`isEditTo${index}`] = index;
@@ -111,7 +108,7 @@ export default class UrlList extends Component {
             <AutoComplete
               dataSource={this.state.dataSource}
               defaultValue={item.from}
-              dropdownClassName="ant-dropdown-custom"
+              dropdownClassName={`ant-dropdown-custom ${minify ? minify : ""}`}
               filterOption
             >
               <TextArea
@@ -135,7 +132,7 @@ export default class UrlList extends Component {
             <AutoComplete
               dataSource={this.state.dataSource}
               defaultValue={item.to}
-              dropdownClassName="ant-dropdown-custom"
+              dropdownClassName={`ant-dropdown-custom ${minify ? minify : ""}`}
               filterOption
             >
               <TextArea
@@ -189,7 +186,7 @@ export default class UrlList extends Component {
 
     const minifyUrlList = minifyUrl.map((item, index) => {
       let currentIndex = commonUrlList.length + index;
-      return EditHTML(item, currentIndex);
+      return EditHTML(item, currentIndex, "minify");
     });
 
     return (

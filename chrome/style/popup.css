@@ -162,3 +162,7 @@ footer {
 .ant-dropdown-custom {
   width: auto !important;
 }
+
+.minify{
+  display: none;
+}

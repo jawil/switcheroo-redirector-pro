@@ -65,7 +65,15 @@ export default class UrlList extends Component {
         this.state.commonRules[index][type] = disableEditingText;
 
         if (type === "from") {
-          if (/\.(js|css)\?/.test(disableEditingText)) {
+          if (/\/+\?\?/.test(disableEditingText)) {
+            this.props.onChangeRule(
+              this.state.commonRules,
+              this.state.fewRules
+            );
+            return;
+          }
+
+          if (/\.(js|css)\?*/.test(disableEditingText)) {
             const langType = disableEditingText.split("/").pop();
             const originLangType = this.state.commonRules[index]["to"]
               .split("/")

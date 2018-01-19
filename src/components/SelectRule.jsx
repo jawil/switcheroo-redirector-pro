@@ -75,7 +75,7 @@ export default class SelectRule extends Component {
         <Select
           mode="tags"
           style={{ width: "90%", marginRight: "10px" }}
-          placeholder="点击选择或填写要代理的链接"
+          placeholder="点击选择或填写要代理的目录链接"
           onChange={dataArr => this.selectedRules(dataArr)}
           allowClear={true}
         >

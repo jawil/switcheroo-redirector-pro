@@ -54,7 +54,6 @@ export default class UrlList extends Component {
   /* 离开焦点进入展示模式 */
   disableEditing(e, type, index) {
     const disableEditingText = e.target.value;
-    const oLi = e.target.parentNode;
     const EditType =
       type === "from" ? `isEditFrom${index}` : `isEditTo${index}`;
 
@@ -63,10 +62,23 @@ export default class UrlList extends Component {
         [EditType]: index
       },
       f => {
-        const childSpan = type === "from" ? $(oLi, ".from") : $(oLi, ".to");
-        this.state.commonRules[index][
-          type
-        ] = childSpan.innerHTML = disableEditingText;
+        this.state.commonRules[index][type] = disableEditingText;
+
+        if (type === "from") {
+          if (/\.(js|css)$/.test(disableEditingText)) {
+            const langType = disableEditingText.split("/").pop();
+            const originLangType = this.state.commonRules[index]["to"]
+              .split("/")
+              .pop();
+            if (langType !== originLangType) {
+              this.state.commonRules[index]["to"] += langType;
+            }
+          } else {
+            this.state.commonRules[index]["to"] = this.state.commonRules[index][
+              "to"
+            ].match(/http:\/\/(127\.0\.0\.1|localhost):\d+\//)[0];
+          }
+        }
 
         this.props.onChangeRule(this.state.commonRules, this.state.fewRules);
       }

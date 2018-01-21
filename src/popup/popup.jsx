@@ -14,8 +14,8 @@ export default class Switcheroo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      commonRules: localRules.getRules("commonRules") || [],
-      fewRules: localRules.getRules("fewRules") || [],
+      commonRules: localRules.getRules("commonRules"),
+      fewRules: localRules.getRules("fewRules"),
       allScriptLinks: JSON.parse(localStorage["allScriptLinks"])
     };
   }
@@ -27,13 +27,15 @@ export default class Switcheroo extends Component {
   }
 
   componentWillMount() {
-    /* 当rules为空并且用户没有点击全部删除的动作自动初始化抓取 */
-    if (
-      !localRules.getRules("commonRules").length &&
-      !localStorage["deleteAll"]
-    ) {
-      chrome.tabs.getSelected(null, tab => {
+    chrome.tabs.getSelected(null, tab => {
+      /* 当rules为空并且用户没有点击全部删除的动作自动初始化抓取 */
+      if (
+        !localRules.getRules("commonRules").length &&
+        !localStorage["deleteAll"]
+      ) {
+        /* 初始化时候的代理链接就是当前页面的链接 */
         localStorage["proxyUrl"] = tab.url;
+
         chrome.tabs.sendRequest(tab.id, "", response => {
           localRules.setRules(response.commonLinks, response.fewLinks);
           localStorage["allScriptLinks"] = JSON.stringify(
@@ -45,15 +47,13 @@ export default class Switcheroo extends Component {
             allScriptLinks: response.allScriptLinks
           });
         });
-      });
-    }
+      }
+    });
   }
 
   /* 编辑删除链接 */
   changeRules(commonRules, fewRules) {
     this.setState({ commonRules, fewRules });
-    commonRules = commonRules.length ? commonRules : "";
-    fewRules = fewRules.length ? fewRules : "";
     localRules.setRules(commonRules, fewRules);
   }
 
@@ -68,11 +68,13 @@ export default class Switcheroo extends Component {
         <span class="to">To</span>
       </li>
     );
+
     return (
       <ul className="url-group">
         <GetLinks
           commonRules={this.state.commonRules}
           fewRules={this.state.fewRules}
+          allScriptLinks={this.state.allScriptLinks}
           onGetLinks={(commonRules, fewRules) =>
             this.changeRules(commonRules, fewRules)
           }
@@ -108,20 +110,3 @@ export default class Switcheroo extends Component {
     );
   }
 }
-
-/* 
-import axios from "axios";
-import cheerio from "cheerio";
-chrome.tabs.getSelected(null, tab => {
-  axios
-    .get(tab.url)
-    .then(function(response) {
-      const $ = cheerio.load(response.data);
-      console.log($("script"),typeof Array.from($("script")))
-      let { commonLinks } = genertorRules($("script"));
-      console.log(commonLinks);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-}); */

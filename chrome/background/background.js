@@ -41,7 +41,7 @@ function showDataOnPage(id, data, link) {
   if (window.webkitNotifications) {
     var notification = window.webkitNotifications.createNotification(
       "images/switch128.png",
-      "Switcheroo Redirector Plus",
+      "Switcheroo Redirector Pro",
       data
     );
     notification.show();
@@ -51,7 +51,7 @@ function showDataOnPage(id, data, link) {
   } else if (chrome.notifications) {
     var opt = {
       type: "basic",
-      title: "Switcheroo Redirector Plus",
+      title: "Switcheroo Redirector Pro",
       message: data,
       iconUrl: "images/switch128.png"
     };
@@ -88,7 +88,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   ) {
     showDataOnPage(
       1000,
-      "Switcheroo Redirector Plus 正在为您代理中！",
+      "Switcheroo Redirector Pro 正在为您代理中！",
       "https://github.com/jawil/redirect"
     );
   }

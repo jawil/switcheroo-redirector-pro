@@ -1,6 +1,6 @@
 {
   "name": "Switcheroo Redirector Pro",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "manifest_version": 2,
   "description":
     "Setup custom redirect rules for any http request i.e pages, scripts, images etc. Uses a simple string replace to do this.",

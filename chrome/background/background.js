@@ -58,7 +58,7 @@ function showDataOnPage(id, data, link) {
     chrome.notifications.create("", opt, function(id) {
       chrome.notifications.onClicked.addListener(function() {
         chrome.notifications.clear(id);
-        window.open(link);
+        // window.open(link);
       });
 
       setTimeout(function() {

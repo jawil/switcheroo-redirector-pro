@@ -82,9 +82,7 @@ export default class UrlList extends Component {
               this.state.commonRules[index]["to"] += langType;
             }
           } else {
-            this.state.commonRules[index]["to"] = this.state.commonRules[index][
-              "to"
-            ].match(/http:\/\/(127\.0\.0\.1|localhost):\d+\//)[0];
+           // /abc/1.js=>/abc/
           }
         }
 

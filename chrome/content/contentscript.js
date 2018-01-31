@@ -12,7 +12,6 @@ const allScriptLinks = Array.from(document.querySelectorAll("script"))
     return !!item == true;
   });
 
-console.log(allScriptLinks);
 const scriptUrlList = Array.from(document.querySelectorAll("script"))
   .map(item => {
     if (/\/+\?\?/.test(item.src)) {
@@ -70,9 +69,18 @@ let fewLinks = [];
 /* 如果不是阿里的网站就正常抓取链接 */
 if (!generatorScriptUrl.length) {
   commonLinks = scriptUrl.map(item => {
+    let toUrl = "http://127.0.0.1:3000/";
+    if (/\/+\?\?/.test(item)) {
+      toUrl = item
+        .split(",")
+        .map(item => {
+          return item.replace(/(react.*)\.min/g, "$1");
+        })
+        .join(",");
+    }
     return {
       from: item,
-      to: "http://127.0.0.1:3000/",
+      to: toUrl,
       isActive: true,
       $$hashKey: Math.random()
         .toString(16)

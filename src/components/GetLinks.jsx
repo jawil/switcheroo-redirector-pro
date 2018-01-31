@@ -80,9 +80,9 @@ export default class GetLinks extends Component {
 
             filterRules.push(hisRule);
 
-            if (hisRule.url !== currentRule.url) {
+          
               filterRules.push(currentRule);
-            }
+            
 
             localStorage["hisRules"] = JSON.stringify(filterRules);
 
@@ -123,13 +123,11 @@ export default class GetLinks extends Component {
     const hisRules = JSON.parse(localStorage["hisRules"] || "[]");
 
     /* 过滤掉当前页面的 url 历史记录，它是匹配上一个 url 的链接信息 */
-    const filterRules = hisRules.filter(item => {
-      return item.url !== this.state.currentUrl;
-    });
+ 
 
-    filterRules.push(currentConfig);
+    hisRules.push(currentConfig);
 
-    localStorage["hisRules"] = JSON.stringify(filterRules);
+    localStorage["hisRules"] = JSON.stringify(hisRules);
 
     this.setState({
       hisBtnToggle: true
@@ -155,6 +153,8 @@ export default class GetLinks extends Component {
       fewRules: this.state.fewRules,
       allScriptLinks: this.state.allScriptLinks
     };
+    
+    console.log(currentConfig,currentConfig.commonRules.length,"currentConfig")
 
     const hasHisRule = this.state.hasHisRule;
     let hisConfig = "";
